@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+  <title>Распознать хост</title>
+</head>
+<body>
+<div class="d-flex flex-row justify-content-center min-vh-100" style="background: #1a1e21">
+  <div class="w-50 my-5 p-5 h-auto" style="background: #f0f0f0">
+    <h1 class="text-center">Распознать хост</h1>
+    <form th:object="${host}" th:method="post" th:action="@{/host}">
+      <div class="my-6 mx-3">
+        <div class="form-group mb-4">
+          <span class="mb-2 row" th:if="${hostType != null}" th:text="${'Этот хост - ' + hostType.name}" style="color: #bb2d3b"></span>
+          <label class="mb-2" for="name">Имя хоста</label>
+          <input type="text" class="form-control" id="name" placeholder="Host name"
+                 th:field="*{name}">
+          <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                 style="font-size: small; color: #bb2d3b">Название хоста должно быть
+            заполнено</label>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn mt-2" type="submit" style="background: #0dcaf0">
+            Распознать
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:href="@{/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
