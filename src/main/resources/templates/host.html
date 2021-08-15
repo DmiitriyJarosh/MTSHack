@@ -29,8 +29,11 @@
             </option>
           </select>
         </div>
-        <div class="d-flex justify-content-end">
-          <button class="btn mt-2" type="submit" style="background: #0dcaf0">
+        <div class="mt-2 d-flex justify-content-end">
+          <a class="btn me-2" th:if="${hostType != null}" th:href="${'http://' + predictHostRequest.name}" style="background: #0dcaf0">
+            Перейти на сайт
+          </a>
+          <button class="btn" type="submit" style="background: #0dcaf0">
             Распознать
           </button>
         </div>
