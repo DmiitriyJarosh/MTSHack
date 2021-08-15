@@ -1,6 +1,7 @@
 package com.divider.Divider.controller;
 
-import com.divider.Divider.dto.Host;
+import com.divider.Divider.dto.PredictHostRequest;
+import com.divider.Divider.service.Algo;
 import com.divider.Divider.service.MainService;
 import java.io.IOException;
 import javax.validation.Valid;
@@ -25,26 +26,31 @@ public class MainController {
   @GetMapping
   public String inputForm(
       Model model,
-      @RequestParam(name = "checkHost", required = false) String checkHost
+      @RequestParam(name = "checkHost", required = false) String checkHost,
+      @RequestParam(name = "algo", required = false) Long algoId
   ) throws IOException {
-    if (checkHost != null) {
-      model.addAttribute("hostType", mainService.predictHost(checkHost));
-      model.addAttribute("host", new Host(checkHost));
-    } else {
-      model.addAttribute("host", new Host());
+    if (checkHost != null && algoId != null) {
+      model.addAttribute("hostType", mainService.predictHost(checkHost, algoId));
     }
+    model.addAttribute("predictHostRequest", new PredictHostRequest(checkHost, algoId));
+    model.addAttribute("algos", Algo.getAlgoList());
     return "host";
   }
 
   @PostMapping("/host")
   public String inputFormSubmit(
-      @Valid Host host,
+      Model model,
+      @Valid PredictHostRequest predictHostRequest,
       BindingResult bindingResult
   ) {
     if (bindingResult.hasErrors()) {
+      model.addAttribute("algos", Algo.getAlgoList());
       return "host";
     }
 
-    return "redirect:/?checkHost=" + host.getName();
+    return "redirect:/?checkHost="
+        + predictHostRequest.getName()
+        + "&algo="
+        + predictHostRequest.getAlgoId();
   }
 }
